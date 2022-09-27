@@ -1,1 +1,36 @@
 site_name: LPIC2
+
+theme:
+  name: material
+  locale: ja
+  features:
+    - navigation.tabs
+    - navigation.sections
+
+nav:
+  - Home: index.md
+  - Topic 200:
+    - "200 キャパシティプランニング": topic200/index.md
+    - "200.1 リソース使用量の計測とトラブルシューティング": topic200/200_1.md
+  - Topic 201:
+    - "トピック 201": topic201/index.md
+  - Topic 202:
+    - "トピック 202": topic202/index.md
+  - Topic 203:
+    - "トピック 203": topic203/index.md
+  - Topic 204:
+    - "トピック 204": topic204/index.md
+  - Topic 205:
+    - "トピック 205": topic205/index.md
+  - Topic 206:
+    - "トピック 206": topic206/index.md
+  - About: about/index.md
+
+markdown_extensions:
+  - admonition
+  - fontawesome_markdown
+  - codehilite
+  - tables
+
+extra_css:
+    - "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
