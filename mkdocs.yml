@@ -4,33 +4,59 @@ theme:
   name: material
   locale: ja
   features:
-    - navigation.tabs
     - navigation.sections
+    - navigation.indexes
 
 nav:
-  - Home: index.md
-  - Topic 200:
-    - "200 キャパシティプランニング": topic200/index.md
-    - "200.1 リソース使用量の計測とトラブルシューティング": topic200/200_1.md
-  - Topic 201:
-    - "トピック 201": topic201/index.md
-  - Topic 202:
-    - "トピック 202": topic202/index.md
-  - Topic 203:
-    - "トピック 203": topic203/index.md
-  - Topic 204:
-    - "トピック 204": topic204/index.md
-  - Topic 205:
-    - "トピック 205": topic205/index.md
-  - Topic 206:
-    - "トピック 206": topic206/index.md
-  - About: about/index.md
+  - LPIC-2試験201トピック:
+    - 200 キャパシティプランニング:
+      - topic200/index.md
+      - "200.1 リソース使用量の計測とトラブルシューティング": topic200/200_1.md
+      - "200.2 将来のリソースニーズの予測": topic200/200_2.md
+    - 201 Linuxカーネル:
+      - topic201/index.md
+      - "201.1 カーネルコンポーネント": topic201/201_1.md
+      - "201.2 Linuxカーネルのコンパイル": topic201/201_2.md
+      - "201.3 カーネルランタイムの管理およびトラブルシューティング": topic201/201_3.md
+    - 202 システムの起動:
+      - topic202/index.md
+      - "202.1 システム起動のカスタマイズ": topic202/202_1.md
+      - "202.2 システムの復旧": topic202/202_2.md
+      - "202.3 代替ブートローダ": topic202/202_3.md
+    - 203 ファイルシステムとデバイス:
+      - topic203/index.md
+      - "203.1 Linuxファイルシステムの操作": topic203/203_1.md
+      - "203.2 Linuxファイルシステムのメンテナンス": topic203/203_2.md
+      - "203.3 ファイルシステムのオプションの作成と設定": topic203/203_3.md
+    - 204 ストレージデバイスの高度な管理:
+      - topic204/index.md
+      - "204.1 RAIDの設定": topic204/204_1.md
+      - "204.2 ストレージデバイスのアクセス権を調整する": topic204/204_2.md
+      - "204.3 論理ボリューム・マネージャ": topic204/204_3.md
+    - 205 ネットワーク構成:
+      - topic205/index.md
+      - "205.1 ネットワークの基本設定": topic205/205_1.md
+      - "205.2 ネットワークの詳細設定": topic205/205_2.md
+      - "205.3 ネットワークに関するトラブルシューティング": topic205/205_3.md
+    - 206 システムメンテナンス:
+      - topic206/index.md
+      - "206.1 ソースからプログラムを作成し、インストールする": topic206/206_1.md
+      - "206.2 バックアップ操作": topic206/206_2.md
+      - "206.3 システムに関する問題点をユーザーに通知": topic206/206_3.md
+  # - LPIC-2試験202トピック:
 
 markdown_extensions:
   - admonition
+  - pymdownx.details
+  - pymdownx.superfences
   - fontawesome_markdown
   - codehilite
   - tables
 
 extra_css:
     - "https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+
+extra:
+  analysis:
+    provider: google
+    property: G-NL3FXBRV72
