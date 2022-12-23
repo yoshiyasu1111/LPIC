@@ -1,0 +1,2346 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>200.1 リソース使用量の計測とトラブルシューティング - LPIC試験合格を目指すサイト</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vmstat" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="LPIC試験合格を目指すサイト" class="md-header__button md-logo" aria-label="LPIC試験合格を目指すサイト" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LPIC試験合格を目指すサイト
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              200.1 リソース使用量の計測とトラブルシューティング
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="LPIC試験合格を目指すサイト" class="md-nav__button md-logo" aria-label="LPIC試験合格を目指すサイト" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    LPIC試験合格を目指すサイト
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          LPIC-2試験201トピック
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="LPIC-2試験201トピック" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          LPIC-2試験201トピック
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_1" type="checkbox" id="__nav_1_1" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">200 キャパシティプランニング</a>
+          
+            <label for="__nav_1_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="200 キャパシティプランニング" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          200 キャパシティプランニング
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          200.1 リソース使用量の計測とトラブルシューティング
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        200.1 リソース使用量の計測とトラブルシューティング
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vmstat" class="md-nav__link">
+    vmstat
+  </a>
+  
+    <nav class="md-nav" aria-label="vmstat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    オプション
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    実行例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#top" class="md-nav__link">
+    top
+  </a>
+  
+    <nav class="md-nav" aria-label="top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    オプション
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    実行例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uptime" class="md-nav__link">
+    uptime
+  </a>
+  
+    <nav class="md-nav" aria-label="uptime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    実行例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sar" class="md-nav__link">
+    sar
+  </a>
+  
+    <nav class="md-nav" aria-label="sar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    オプション
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    実行例1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    実行例2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    実行例3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    実行例4
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    実行例5
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    実行例6
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    実行例7
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iptraf" class="md-nav__link">
+    iptraf
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pstree" class="md-nav__link">
+    pstree
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ps" class="md-nav__link">
+    ps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iotop" class="md-nav__link">
+    iotop
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../200_2/" class="md-nav__link">
+        200.2 将来のリソースニーズの予測
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_2" type="checkbox" id="__nav_1_2" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../topic201/">201 Linuxカーネル</a>
+          
+            <label for="__nav_1_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="201 Linuxカーネル" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          201 Linuxカーネル
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic201/201_1/" class="md-nav__link">
+        201.1 カーネルコンポーネント
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic201/201_2/" class="md-nav__link">
+        201.2 Linuxカーネルのコンパイル
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic201/201_3/" class="md-nav__link">
+        201.3 カーネルランタイムの管理およびトラブルシューティング
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_3" type="checkbox" id="__nav_1_3" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../topic202/">202 システムの起動</a>
+          
+            <label for="__nav_1_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="202 システムの起動" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          202 システムの起動
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic202/202_1/" class="md-nav__link">
+        202.1 システム起動のカスタマイズ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic202/202_2/" class="md-nav__link">
+        202.2 システムの復旧
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic202/202_3/" class="md-nav__link">
+        202.3 代替ブートローダ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4" type="checkbox" id="__nav_1_4" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../topic203/">203 ファイルシステムとデバイス</a>
+          
+            <label for="__nav_1_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="203 ファイルシステムとデバイス" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_4">
+          <span class="md-nav__icon md-icon"></span>
+          203 ファイルシステムとデバイス
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic203/203_1/" class="md-nav__link">
+        203.1 Linuxファイルシステムの操作
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic203/203_2/" class="md-nav__link">
+        203.2 Linuxファイルシステムのメンテナンス
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic203/203_3/" class="md-nav__link">
+        203.3 ファイルシステムのオプションの作成と設定
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_5" type="checkbox" id="__nav_1_5" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../topic204/">204 ストレージデバイスの高度な管理</a>
+          
+            <label for="__nav_1_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="204 ストレージデバイスの高度な管理" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_5">
+          <span class="md-nav__icon md-icon"></span>
+          204 ストレージデバイスの高度な管理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic204/204_1/" class="md-nav__link">
+        204.1 RAIDの設定
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic204/204_2/" class="md-nav__link">
+        204.2 ストレージデバイスのアクセス権を調整する
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic204/204_3/" class="md-nav__link">
+        204.3 論理ボリューム・マネージャ
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_6" type="checkbox" id="__nav_1_6" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../topic205/">205 ネットワーク構成</a>
+          
+            <label for="__nav_1_6">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="205 ネットワーク構成" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_6">
+          <span class="md-nav__icon md-icon"></span>
+          205 ネットワーク構成
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic205/205_1/" class="md-nav__link">
+        205.1 ネットワークの基本設定
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic205/205_2/" class="md-nav__link">
+        205.2 ネットワークの詳細設定
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic205/205_3/" class="md-nav__link">
+        205.3 ネットワークに関するトラブルシューティング
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_7" type="checkbox" id="__nav_1_7" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../topic206/">206 システムメンテナンス</a>
+          
+            <label for="__nav_1_7">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="206 システムメンテナンス" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_7">
+          <span class="md-nav__icon md-icon"></span>
+          206 システムメンテナンス
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic206/206_1/" class="md-nav__link">
+        206.1 ソースからプログラムを作成し、インストールする
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic206/206_2/" class="md-nav__link">
+        206.2 バックアップ操作
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../topic206/206_3/" class="md-nav__link">
+        206.3 システムに関する問題点をユーザーに通知
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vmstat" class="md-nav__link">
+    vmstat
+  </a>
+  
+    <nav class="md-nav" aria-label="vmstat">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    オプション
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    実行例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#top" class="md-nav__link">
+    top
+  </a>
+  
+    <nav class="md-nav" aria-label="top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    オプション
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    実行例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uptime" class="md-nav__link">
+    uptime
+  </a>
+  
+    <nav class="md-nav" aria-label="uptime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    実行例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sar" class="md-nav__link">
+    sar
+  </a>
+  
+    <nav class="md-nav" aria-label="sar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    文法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    オプション
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    実行例1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    実行例2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    実行例3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    実行例4
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    実行例5
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    実行例6
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    実行例7
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    表示結果の内容
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iptraf" class="md-nav__link">
+    iptraf
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pstree" class="md-nav__link">
+    pstree
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ps" class="md-nav__link">
+    ps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iotop" class="md-nav__link">
+    iotop
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>200.1 リソース使用量の計測とトラブルシューティング</h1>
+
+<h2 id="vmstat">vmstat</h2>
+<p>システムのメモリ、プロセス、割り込み、ページング、ブロックI/O、CPUの情報を表示します。</p>
+<h3 id="_1">文法</h3>
+<div class="highlight"><pre><span></span><code>vmstat <span class="o">[</span>間隔<span class="o">(</span>s<span class="o">)</span> <span class="o">[</span>回数<span class="o">]]</span>
+</code></pre></div>
+<h3 id="_2">オプション</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-d</td>
+<td>ディスクの統計情報を表示する</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>イベントカウンタとメモリの統計情報を表示する</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>指定したパーティションの統計情報を表示する</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>メモリのアクティブ/インアクティブを表示する</td>
+</tr>
+<tr>
+<td>-S</td>
+<td>Sの後にkまたはK、mまたはMを付けると1000、1,024、1,000,000、1,048,576バイトに出力が変わります。</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>大きなメモリサイズに対応するため、フィールド幅を拡大する</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">実行例</h3>
+<div class="highlight"><pre><span></span><code>$ vmstat <span class="m">1</span> <span class="m">3</span>
+procs   -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd    free   buff   cache   si   so    bi    bo   <span class="k">in</span>   cs us sy id wa st
+ <span class="m">0</span>  <span class="m">0</span> <span class="m">162464</span> <span class="m">1888624</span> <span class="m">972008</span> <span class="m">7572308</span>    <span class="m">0</span>    <span class="m">0</span>     <span class="m">8</span>    <span class="m">96</span>   <span class="m">14</span>   <span class="m">17</span> <span class="m">17</span>  <span class="m">6</span> <span class="m">77</span>  <span class="m">0</span>  <span class="m">0</span>
+ <span class="m">0</span>  <span class="m">0</span> <span class="m">162464</span> <span class="m">1896428</span> <span class="m">972008</span> <span class="m">7564304</span>    <span class="m">0</span>    <span class="m">0</span>     <span class="m">0</span>     <span class="m">0</span> <span class="m">1742</span> <span class="m">3277</span>  <span class="m">1</span>  <span class="m">0</span> <span class="m">99</span>  <span class="m">0</span>  <span class="m">0</span>
+ <span class="m">0</span>  <span class="m">0</span> <span class="m">162464</span> <span class="m">1891780</span> <span class="m">972008</span> <span class="m">7563944</span>    <span class="m">0</span>    <span class="m">0</span>     <span class="m">0</span>   <span class="m">240</span> <span class="m">2015</span> <span class="m">4127</span>  <span class="m">1</span>  <span class="m">1</span> <span class="m">98</span>  <span class="m">0</span>  <span class="m">0</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ vmstat -d -w -SM
+disk- -------------------reads------------------- -------------------writes------------------ ------IO-------
+          total    merged     sectors          ms     total    merged     sectors          ms     cur     sec
+nvme0n1  <span class="m">601772</span>    <span class="m">123291</span>    <span class="m">34476461</span>      <span class="m">220478</span>   <span class="m">9635078</span>   <span class="m">9738776</span>   <span class="m">444943858</span>    <span class="m">18905783</span>       <span class="m">0</span>    <span class="m">8533</span>
+sda        <span class="m">6694</span>         <span class="m">0</span>       <span class="m">37194</span>       <span class="m">56228</span>         <span class="m">0</span>         <span class="m">0</span>           <span class="m">0</span>           <span class="m">0</span>       <span class="m">0</span>      <span class="m">63</span>
+sdb        <span class="m">4839</span>     <span class="m">36711</span>       <span class="m">76258</span>       <span class="m">86326</span>         <span class="m">2</span>         <span class="m">1</span>           <span class="m">3</span>           <span class="m">2</span>       <span class="m">0</span>      <span class="m">12</span>
+</code></pre></div>
+<h3 id="_4">表示結果の内容</h3>
+<ul>
+<li>
+<p>procs</p>
+<ul>
+<li>r (runnable: 実行可能) : 待ち状態となっている実行可能プロセス数</li>
+<li>b (block: ブロック) : 割り込みできないスリープ状態となっているプロセス数</li>
+</ul>
+</li>
+<li>
+<p>memory</p>
+<ul>
+<li>swpd : 使用されているスワップの量</li>
+<li>free : 未使用のメモリの量</li>
+<li>buff : 使用されているバッファの量</li>
+<li>cache : 使用されているキャッシュの量</li>
+</ul>
+</li>
+<li>
+<p>swap</p>
+<ul>
+<li>si (swap in) : スワップからメモリに読み込まれた1秒間の平均量</li>
+<li>so (swap out): メモリからスワップに書き出された1秒間の平均量</li>
+</ul>
+</li>
+<li>
+<p>io</p>
+<ul>
+<li>bi (block in) : デバイスから読み込まれたブロックの1秒間の平均量</li>
+<li>bo (block out) : デバイスに書き出されたブロックの1秒間の平均量</li>
+</ul>
+</li>
+<li>
+<p>system</p>
+<ul>
+<li>in (interrupt) : １秒あたり割り込み回数</li>
+<li>cs (context switch) : 1秒あたりのコンテキストスイッチの回数</li>
+</ul>
+</li>
+<li>
+<p>cpu</p>
+<ul>
+<li>us (user) : ユーザ時間の割合</li>
+<li>sy (system) : カーネル時間の割合</li>
+<li>id (idle) : アイドル時間の割合</li>
+<li>wa (wait) : I/O待ち時間の割合</li>
+<li>st (stolen): 仮想マシンの与えた時間の割合</li>
+</ul>
+</li>
+<li>
+<p>reads</p>
+<ul>
+<li>total : 正常に完了した読み込みの合計</li>
+<li>merged: グループ化された読み込み(I/O)</li>
+<li>sectors : 読み込みに成功したセクタ数</li>
+<li>ms : 読み込みにかかった時間</li>
+</ul>
+</li>
+<li>
+<p>writes</p>
+<ul>
+<li>total : 正常に完了した書き込みの合計</li>
+<li>merged : グループ化された書き込み(I/O)</li>
+<li>sectors : 書き込みに成功したセクタ数</li>
+<li>ms : 書き込みにかかった時間</li>
+</ul>
+</li>
+<li>
+<p>IO</p>
+<ul>
+<li>cur : 実行中のI/O</li>
+<li>s : I/Oに費やした時間</li>
+</ul>
+</li>
+</ul>
+<h2 id="top">top</h2>
+<p>システムの全体的な使用率統計情報や、各プロセスのかつ状況を定期的に更新し、リアルタイムに表示する。</p>
+<h3 id="_5">文法</h3>
+<div class="highlight"><pre><span></span><code>$ top
+</code></pre></div>
+<h3 id="_6">オプション</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-d 間隔</td>
+<td>更新する間隔（デフォルト3秒）</td>
+</tr>
+<tr>
+<td>-n 回数</td>
+<td>表示を繰り返す回数</td>
+</tr>
+<tr>
+<td>-U ユーザー</td>
+<td>指定したユーザのプロセスを表示する</td>
+</tr>
+<tr>
+<td>-p PID</td>
+<td>指定したPIDを表示する</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>プログラム名とコマンドラインの表示を切り替える</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">実行例</h3>
+<p>システムの全体的な使用率統計情報を表示するサマリー領域と、実行中のプロセスを、CPU使用率の高い順に、周期的にリスト表示するタスク領域があります。</p>
+<p><img alt="" src="../images/top_00.png" /></p>
+<h3 id="_8">表示結果の内容</h3>
+<p>サマリー領域</p>
+<ul>
+<li>
+<p>1行目 top -</p>
+<ul>
+<li>現在時刻</li>
+<li>稼働時間</li>
+<li>ログインユーザー数</li>
+<li>平均負荷（1分、5分、15分）</li>
+</ul>
+</li>
+<li>
+<p>2行目 tasks:</p>
+<ul>
+<li>タスクの総数</li>
+<li>実行中あるいは実行可能なタスク数</li>
+<li>スリープしているタスク数</li>
+<li>ストップしているタスク数</li>
+<li>ゾンビタスク数</li>
+</ul>
+</li>
+<li>
+<p>3行目 %Cpu(s):</p>
+<ul>
+<li>ユーザモードの時間</li>
+<li>システムモードの時間</li>
+<li>ナイス値が変更されたプロセスのユーザモードの時間</li>
+<li>アイドル時間</li>
+<li>I/O終了待ちの時間</li>
+<li>ハードウェア割り込みの処理時間</li>
+<li>ソフトウェア割り込みの処理時間</li>
+<li>ハーパーバイザの処理時間</li>
+</ul>
+</li>
+<li>
+<p>4行目 MiB Mem:</p>
+<ul>
+<li>メモリの総量</li>
+<li>未使用のメモリのサイズ</li>
+<li>使用されているメモリのサイズ</li>
+<li>バッファやキャッシュに割り当て済みのメモリのサイズ</li>
+</ul>
+</li>
+<li>
+<p>5行目 MiB Swap:</p>
+<ul>
+<li>スワップ領域の総量</li>
+<li>未使用のスワップ領域のサイズ</li>
+<li>使用されているスワップ領域のサイズ</li>
+<li>物理メモリの空きサイズ</li>
+</ul>
+</li>
+</ul>
+<p>タスク領域</p>
+<ul>
+<li>PID : プロセスID</li>
+<li>USER : 実行ユーザ</li>
+<li>PR : 優先度(Priority)。低いほど優先される。</li>
+<li>NI : ナイス値(nice)。低いほど優先される。</li>
+<li>VIRT : 割り当て済みの仮想メモリ（KiB）。スワップ含む。</li>
+<li>RES : Resident Memory Size（KiB）。使用している物理メモリ。スワップ含まない。</li>
+<li>SHR : Shared Memory Size（KiB）。RESのうち、共有メモリとして使用されているメモリ。</li>
+<li>S : Process State Code。<ul>
+<li>D : 割り込み不可スリープ</li>
+<li>I : アイドルカーネルスレッド</li>
+<li>R : 実行中もしくは実行可能</li>
+<li>S : 割り込み可能スリープ</li>
+<li>T : ジョブ制御シグナルで停止</li>
+<li>t : デバッガにより停止</li>
+<li>Z : ゾンビプロセス</li>
+</ul>
+</li>
+<li>%CPU : そのプロセスが処理を行った時間の割合。</li>
+<li>%MEM : RES（実際の消費メモリ）の割合。</li>
+<li>TIME+ : プロセスが起動してから、CPUにより処理された掃除間。(10ms)</li>
+<li>COMMAND : 実行プロセス名。</li>
+</ul>
+<h2 id="uptime">uptime</h2>
+<p>システムの稼働時間や負荷平均(Load average)を表示します。</p>
+<h3 id="_9">文法</h3>
+<div class="highlight"><pre><span></span><code>$ uptime
+</code></pre></div>
+<h3 id="_10">実行例</h3>
+<p><img alt="" src="../images/uptime_00.png" /></p>
+<h3 id="_11">表示結果の内容</h3>
+<ul>
+<li>現在時刻</li>
+<li>稼働時間</li>
+<li>ログインユーザ数</li>
+<li>負荷平均（1分、5分、15分）</li>
+</ul>
+<h2 id="sar">sar</h2>
+<p>システムアクティビティの統計情報を収集、格納、表示する。指定したインターバル、回数で統計情報を収集し、表示する。インターバル、回数をを指定しなかった場合、あるいは-fオプションを指定した場合はデータファイルの内容を表示します。</p>
+<h3 id="_12">文法</h3>
+<div class="highlight"><pre><span></span><code>$ sar <span class="o">[</span>オプション<span class="o">]</span> &lt;間隔<span class="o">(</span>秒<span class="o">)</span>&gt; &lt;回数&gt;
+</code></pre></div>
+<h3 id="_13">オプション</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-o [ファイル名]</td>
+<td>格納するデータファイル</td>
+</tr>
+<tr>
+<td>-f [ファイル名]</td>
+<td>表示するデータファイル</td>
+</tr>
+<tr>
+<td>-P {CPU番号&#124;ALL}</td>
+<td>指定したCPU番号の統計情報を表示する。</td>
+</tr>
+<tr>
+<td>-n {キーワード&#124;ALL}</td>
+<td>指定したキーワードの統計情報を表示する。キーワード： DEV(ネットワークデバイス)、SOCK(UNIXソケット)、IP、TCP、UDP</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>メモリの使用状況を表示する</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>ブロックデバイスの統計情報を表示する</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>I/Oと転送レートの統計情報を表示する</td>
+</tr>
+<tr>
+<td>-A</td>
+<td>すべての統計情報を表示する</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1">実行例1</h3>
+<p>1秒間隔で3回統計情報を取得する</p>
+<div class="highlight"><pre><span></span><code>$ sar <span class="m">1</span> <span class="m">3</span>
+Linux <span class="m">5</span>.15.0-56-generic <span class="o">(</span>yonon<span class="o">)</span>     2022年12月23日     _x86_64_    <span class="o">(</span><span class="m">12</span> CPU<span class="o">)</span>
+
+12時50分29秒     CPU     %user     %nice   %system   %iowait    %steal     %idle
+12時50分30秒     all      <span class="m">1</span>.74      <span class="m">0</span>.00      <span class="m">1</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">97</span>.26
+12時50分31秒     all      <span class="m">8</span>.60      <span class="m">0</span>.00      <span class="m">2</span>.17      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">89</span>.23
+12時50分32秒     all      <span class="m">2</span>.01      <span class="m">0</span>.00      <span class="m">0</span>.92      <span class="m">0</span>.17      <span class="m">0</span>.00     <span class="m">96</span>.91
+平均値:      all      <span class="m">4</span>.11      <span class="m">0</span>.00      <span class="m">1</span>.36      <span class="m">0</span>.06      <span class="m">0</span>.00     <span class="m">94</span>.47
+</code></pre></div>
+<h3 id="_14">表示結果の内容</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%user</td>
+<td>CPUがユーザモードで実行していた時間の割合。</td>
+</tr>
+<tr>
+<td>%nice</td>
+<td>nice値が変更されたプロセスをCPUがユーザーモードで実行するのに費やした時間の割合。</td>
+</tr>
+<tr>
+<td>%system</td>
+<td>CPUがカーネルモードで実行していた時間の割合。ハードウェア割り込みと ソフトウェア割り込みで使われた時間を含む。</td>
+</tr>
+<tr>
+<td>%iowait</td>
+<td>CPUがディスクI/O待ちをしていた時間の割合。</td>
+</tr>
+<tr>
+<td>%steal</td>
+<td>ハイパーバイザがゲストOSにCPUを割り当てるのに費やした時間の割合。ゲストOSがCPUを要求したが、別のゲストOSがCPUを使用していて競合が起こったときにこの値が上昇する。</td>
+</tr>
+<tr>
+<td>%idle</td>
+<td>CPUがアイドル状態であった時間の割合。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2">実行例2</h3>
+<p>1秒間隔で3回CPUの統計情報を、ALLオプションの指定ですべてのフィールドを取得する</p>
+<div class="highlight"><pre><span></span><code>$ sar -u ALL <span class="m">1</span> <span class="m">3</span>
+Linux <span class="m">5</span>.15.0-56-generic <span class="o">(</span>yonon<span class="o">)</span>     2022年12月23日     _x86_64_    <span class="o">(</span><span class="m">12</span> CPU<span class="o">)</span>
+
+16時48分39秒     CPU      %usr     %nice      %sys   %iowait    %steal      %irq     %soft    %guest    %gnice     %idle
+16時48分40秒     all      <span class="m">0</span>.33      <span class="m">0</span>.00      <span class="m">0</span>.25      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">99</span>.41
+16時48分41秒     all      <span class="m">0</span>.92      <span class="m">0</span>.00      <span class="m">1</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">98</span>.08
+16時48分42秒     all      <span class="m">1</span>.25      <span class="m">0</span>.00      <span class="m">1</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">97</span>.75
+平均値:      all      <span class="m">0</span>.83      <span class="m">0</span>.00      <span class="m">0</span>.75      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">98</span>.41
+</code></pre></div>
+<h3 id="_15">表示結果の内容</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%usr</td>
+<td>CPUがユーザモードで動作していた時間の割合。 このフィールドは仮想プロセッサで使われる時間を「含まない」。</td>
+</tr>
+<tr>
+<td>%nice</td>
+<td>nice値が変更されたプロセスをCPUがユーザーモードで動作していた時間の割合。</td>
+</tr>
+<tr>
+<td>%sys</td>
+<td>CPUがカーネルモードで動作していた時間の割合。ハードウェア割り込みと ソフトウェア割り込みで使われた時間を「含まない」。</td>
+</tr>
+<tr>
+<td>%iowait</td>
+<td>CPUがディスクI/O待ちをしていた時間の割合。</td>
+</tr>
+<tr>
+<td>%steal</td>
+<td>ハイパーバイザがゲストOSにCPUを割り当てるのに費やした時間の割合。ゲストOSがCPUを要求したが、別のゲストOSがCPUを使用していて競合が起こったときにこの値が上昇する。</td>
+</tr>
+<tr>
+<td>%irq</td>
+<td>CPUがハードウェア割り込みへのサービスに使った時間の割合。</td>
+</tr>
+<tr>
+<td>%soft</td>
+<td>CPUがソフトウェア割り込みへのサービスに使った時間の割合。</td>
+</tr>
+<tr>
+<td>%guest</td>
+<td>CPUが仮想プロセッサを実行するのに使った時間の割合。</td>
+</tr>
+<tr>
+<td>%gnice</td>
+<td>CPUがnice値が変更されたゲストを実行するのに使った時間の割合。</td>
+</tr>
+<tr>
+<td>%idle</td>
+<td>CPUがアイドル状態であった時間の割合。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3">実行例3</h3>
+<p>1秒間隔で3回メモリの統計情報を、ALLオプションの指定ですべてのフィールドを取得する。</p>
+<div class="highlight"><pre><span></span><code>$ sar -r ALL <span class="m">1</span> <span class="m">3</span>
+Linux <span class="m">5</span>.15.0-56-generic <span class="o">(</span>yonon<span class="o">)</span>     2022年12月23日     _x86_64_    <span class="o">(</span><span class="m">12</span> CPU<span class="o">)</span>
+
+16時12分11秒 kbmemfree   kbavail kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty  kbanonpg    kbslab  kbkstack   kbpgtbl  kbvmused
+16時12分12秒   <span class="m">1649300</span>   <span class="m">5699816</span>   <span class="m">7075780</span>     <span class="m">44</span>.12    <span class="m">906964</span>   <span class="m">5718328</span>  <span class="m">30462960</span>    <span class="m">167</span>.97   <span class="m">4236168</span>   <span class="m">8229916</span>       <span class="m">140</span>   <span class="m">6569484</span>    <span class="m">688940</span>     <span class="m">34416</span>    <span class="m">113476</span>    <span class="m">206124</span>
+16時12分13秒   <span class="m">1650832</span>   <span class="m">5701336</span>   <span class="m">7074260</span>     <span class="m">44</span>.11    <span class="m">906964</span>   <span class="m">5718316</span>  <span class="m">30462960</span>    <span class="m">167</span>.97   <span class="m">4235992</span>   <span class="m">8226604</span>       <span class="m">172</span>   <span class="m">6569516</span>    <span class="m">688940</span>     <span class="m">34416</span>    <span class="m">113476</span>    <span class="m">206124</span>
+16時12分14秒   <span class="m">1650372</span>   <span class="m">5700876</span>   <span class="m">7074720</span>     <span class="m">44</span>.11    <span class="m">906964</span>   <span class="m">5718316</span>  <span class="m">30462964</span>    <span class="m">167</span>.97   <span class="m">4235992</span>   <span class="m">8227180</span>        <span class="m">52</span>   <span class="m">6570096</span>    <span class="m">688940</span>     <span class="m">34416</span>    <span class="m">113476</span>    <span class="m">206108</span>
+平均値:    <span class="m">1650168</span>   <span class="m">5700676</span>   <span class="m">7074920</span>     <span class="m">44</span>.11    <span class="m">906964</span>   <span class="m">5718320</span>  <span class="m">30462961</span>    <span class="m">167</span>.97   <span class="m">4236051</span>   <span class="m">8227900</span>       <span class="m">121</span>   <span class="m">6569699</span>    <span class="m">688940</span>     <span class="m">34416</span>    <span class="m">113476</span>    <span class="m">206119</span>
+</code></pre></div>
+<h3 id="_16">表示結果の内容</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kbmemfree</td>
+<td>空きメモリの容量（KB）</td>
+</tr>
+<tr>
+<td>kbavail</td>
+<td>スワップなしで新しいアプリケーションを開始するのに 利用可能なメモリ量の推定値（KB）</td>
+</tr>
+<tr>
+<td>kbmemused</td>
+<td>メモリの使用量（KB）（マシンのメモリサイズ - kbmemfree - kbbuffers - kbcached - kbslab）</td>
+</tr>
+<tr>
+<td>%memused</td>
+<td>メモリ使用量の割合（％）</td>
+</tr>
+<tr>
+<td>kbbuffers</td>
+<td>カーネルのバッファとして使用されているメモリの容量（KB）</td>
+</tr>
+<tr>
+<td>kbcached</td>
+<td>カーネルキャッシュとして使用されているメモリの容量（KB）</td>
+</tr>
+<tr>
+<td>kbcommit</td>
+<td>システムの動作に必要な事前に確保されているメモリの量 (RAM + swap)</td>
+</tr>
+<tr>
+<td>%commit</td>
+<td>システムの動作に必要な事前に確保されているメモリの総メモリ量に対する割合 (RAM + swap)</td>
+</tr>
+<tr>
+<td>kbactive</td>
+<td>アクティブなメモリの容量 (KB)。※直近で使用されたメモリ、必要のない限り再利用 (開放) されないメモリ。</td>
+</tr>
+<tr>
+<td>kbinact</td>
+<td>アクティブでないメモリの容量 (KB)。※直近で使用されていないメモリ、必要に応じて再利用 (開放) するメモリ。</td>
+</tr>
+<tr>
+<td>kbdirty</td>
+<td>ディスクに書き戻されるのを待機しているメモリの容量 (KB)。</td>
+</tr>
+<tr>
+<td>kbanonpg</td>
+<td>ユーザ空間ページテーブルへマップされるファイルに紐付かない (non-file backed) ページ数。</td>
+</tr>
+<tr>
+<td>kbslab</td>
+<td>カーネルがキャッシュデータ構造、またはカーネル自身で 使っているメモリ量（KB）</td>
+</tr>
+<tr>
+<td>kbkstack</td>
+<td>カーネルスタック空間として使っているメモリ量（KB）</td>
+</tr>
+<tr>
+<td>kbpgtbl</td>
+<td>ページテーブルの最下層として割り当てられるメモリ量（KB）</td>
+</tr>
+<tr>
+<td>kbvmused</td>
+<td>仮想アドレス空間として使っているメモリ量（KB）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4">実行例4</h3>
+<p>1秒間隔で3回ブロックデバイスの統計情報を取得する。</p>
+<div class="highlight"><pre><span></span><code>$ sar -d <span class="m">1</span> <span class="m">3</span>
+Linux <span class="m">5</span>.15.0-56-generic <span class="o">(</span>yonon<span class="o">)</span>     2022年12月23日     _x86_64_    <span class="o">(</span><span class="m">12</span> CPU<span class="o">)</span>
+
+14時20分06秒       DEV       tps     rkB/s     wkB/s     dkB/s   areq-sz    aqu-sz     await     %util
+14時20分07秒   nvme0n1     <span class="m">40</span>.00      <span class="m">0</span>.00    <span class="m">160</span>.00      <span class="m">0</span>.00      <span class="m">4</span>.00      <span class="m">0</span>.09      <span class="m">2</span>.33      <span class="m">0</span>.80
+14時20分07秒       sda      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+14時20分07秒       sdb      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+
+14時20分07秒       DEV       tps     rkB/s     wkB/s     dkB/s   areq-sz    aqu-sz     await     %util
+14時20分08秒   nvme0n1      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+14時20分08秒       sda      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+14時20分08秒       sdb      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+14時20分08秒       DEV       tps     rkB/s     wkB/s     dkB/s   areq-sz    aqu-sz     await     %util
+14時20分09秒   nvme0n1      <span class="m">2</span>.00      <span class="m">0</span>.00     <span class="m">36</span>.00      <span class="m">0</span>.00     <span class="m">18</span>.00      <span class="m">0</span>.01      <span class="m">5</span>.00      <span class="m">1</span>.20
+14時20分09秒       sda      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+14時20分09秒       sdb      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+平均値:    nvme0n1     <span class="m">14</span>.00      <span class="m">0</span>.00     <span class="m">65</span>.33      <span class="m">0</span>.00      <span class="m">4</span>.67      <span class="m">0</span>.04      <span class="m">2</span>.45      <span class="m">0</span>.67
+平均値:        sda      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+平均値:        sdb      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+</code></pre></div>
+<h3 id="_17">表示結果の内容</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tps</td>
+<td>1秒あたりに物理デバイスに発行される転送回数</td>
+</tr>
+<tr>
+<td>rKB/s</td>
+<td>1秒あたりにデバイスから読み込んだデータのサイズ（KB）</td>
+</tr>
+<tr>
+<td>wKB/s</td>
+<td>1秒あたりにデバイスから書き込んだデータのサイズ（KB）</td>
+</tr>
+<tr>
+<td>dKB/s</td>
+<td>1秒あたりにデバイスから破棄したデータのサイズ（KB）</td>
+</tr>
+<tr>
+<td>areq-sz</td>
+<td>デバイスに発行したI/Oリクエストの平均サイズ（KB）</td>
+</tr>
+<tr>
+<td>aqu-sz</td>
+<td>デバイスに発行したリクエスト平均のキューの長さ</td>
+</tr>
+<tr>
+<td>await</td>
+<td>デバイスに発行した I/O リクエストが処理されるまでの平均時間 (ミリ秒)。 この時間には、リクエストがキューに入っている時間と、処理される時間が含まれる。</td>
+</tr>
+<tr>
+<td>%util</td>
+<td>デバイスに I/O リクエストが発行される経過時間の割合 (デバイスのバンド幅使用率)。 リクエストに対してデバイスがシリアルにサービスする場合、 この値が 100% に近いとデバイスの飽和が起こっている。 RAID アレイや最近の SSD のように、リクエストに対してデバイスがパラレルにサービスする場合、 この値は性能限界を反映しない。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5">実行例5</h3>
+<p>1秒間隔で3回I/Oと転送率の統計情報を取得する。</p>
+<div class="highlight"><pre><span></span><code>$ sar -b <span class="m">1</span> <span class="m">3</span>
+Linux <span class="m">5</span>.15.0-56-generic <span class="o">(</span>yonon<span class="o">)</span>     2022年12月23日     _x86_64_    <span class="o">(</span><span class="m">12</span> CPU<span class="o">)</span>
+
+16時34分33秒       tps      rtps      wtps      dtps   bread/s   bwrtn/s   bdscd/s
+16時34分34秒      <span class="m">7</span>.00      <span class="m">0</span>.00      <span class="m">7</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">56</span>.00      <span class="m">0</span>.00
+16時34分35秒      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+16時34分36秒      <span class="m">7</span>.00      <span class="m">0</span>.00      <span class="m">7</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">56</span>.00      <span class="m">0</span>.00
+平均値:       <span class="m">4</span>.67      <span class="m">0</span>.00      <span class="m">4</span>.67      <span class="m">0</span>.00      <span class="m">0</span>.00     <span class="m">37</span>.33      <span class="m">0</span>.00
+</code></pre></div>
+<h3 id="_18">表示結果の内容</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tps</td>
+<td>1 秒あたりに物理デバイスに発行される転送回数。</td>
+</tr>
+<tr>
+<td>rtps</td>
+<td>1 秒あたりの物理デバイスからの読み込みリクエスト数。</td>
+</tr>
+<tr>
+<td>wtps</td>
+<td>1 秒あたりの物理デバイスへの書き込みリクエスト数。</td>
+</tr>
+<tr>
+<td>dtps</td>
+<td>1 秒あたりの物理デバイスへの破棄リクエスト数。</td>
+</tr>
+<tr>
+<td>bread/s</td>
+<td>1 秒あたりのデバイスからの読み込みデータ量 (ブロック数)</td>
+</tr>
+<tr>
+<td>bwrtn/s</td>
+<td>1 秒あたりのデバイスへの書き込みデータ量 (ブロック数)</td>
+</tr>
+<tr>
+<td>bdscd/s</td>
+<td>1 秒あたりのデバイスへの破棄データ量 (ブロック数)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6">実行例6</h3>
+<p>1秒間隔で3回ネットワークデバイスの統計情報を取得する。</p>
+<div class="highlight"><pre><span></span><code>$ sar -n DEV <span class="m">1</span> <span class="m">3</span>
+Linux <span class="m">5</span>.15.0-56-generic <span class="o">(</span>yonon<span class="o">)</span>     2022年12月23日     _x86_64_    <span class="o">(</span><span class="m">12</span> CPU<span class="o">)</span>
+
+17時11分40秒     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+17時11分41秒        lo      <span class="m">2</span>.00      <span class="m">2</span>.00      <span class="m">0</span>.12      <span class="m">0</span>.12      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分41秒    enp7s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分41秒      eno1      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分41秒    wlp6s0      <span class="m">1</span>.00      <span class="m">1</span>.00      <span class="m">0</span>.04      <span class="m">0</span>.07      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+17時11分41秒     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+17時11分42秒        lo      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分42秒    enp7s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分42秒      eno1      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分42秒    wlp6s0      <span class="m">1</span>.00      <span class="m">1</span>.00      <span class="m">0</span>.06      <span class="m">0</span>.09      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+17時11分42秒     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+17時11分43秒        lo      <span class="m">2</span>.00      <span class="m">2</span>.00      <span class="m">0</span>.12      <span class="m">0</span>.12      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分43秒    enp7s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分43秒      eno1      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+17時11分43秒    wlp6s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+平均値:      IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+平均値:         lo      <span class="m">1</span>.33      <span class="m">1</span>.33      <span class="m">0</span>.08      <span class="m">0</span>.08      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+平均値:     enp7s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+平均値:       eno1      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+平均値:     wlp6s0      <span class="m">0</span>.67      <span class="m">0</span>.67      <span class="m">0</span>.04      <span class="m">0</span>.05      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+</code></pre></div>
+<h3 id="_19">表示結果の内容</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IFACE</td>
+<td>統計をレポートするネットワークインタフェースの名前。</td>
+</tr>
+<tr>
+<td>rxpck/s</td>
+<td>1 秒あたりの受信パケット数。</td>
+</tr>
+<tr>
+<td>txpck/s</td>
+<td>1 秒あたりの送信パケット数。</td>
+</tr>
+<tr>
+<td>rxKB/s</td>
+<td>1 秒あたりの受信キロバイト数。</td>
+</tr>
+<tr>
+<td>txKB/s</td>
+<td>1 秒あたりの送信キロバイト数。</td>
+</tr>
+<tr>
+<td>rxcmp/s</td>
+<td>1 秒あたりの受信圧縮パケット数 (cslip など)。</td>
+</tr>
+<tr>
+<td>txcmp/s</td>
+<td>1 秒あたりの送信圧縮パケット数。</td>
+</tr>
+<tr>
+<td>rxmcst/s</td>
+<td>1 秒あたりの受信マルチキャストパケット数。</td>
+</tr>
+<tr>
+<td>%ifutil</td>
+<td>ネットワークインタフェースの利用率。 半二重インタフェースの場合の利用率は、rxkB/s と txkB/s の合計が インタフェーススピードに占める割合を計算する。 全二重インタフェースの場合は、rxkB/s と txkB/s のうちの大きい方が占める割合を計算する。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7">実行例7</h3>
+<p>1秒間隔で3回ネットワークデバイスwlp6s0のエラーの統計情報を取得する。</p>
+<div class="highlight"><pre><span></span><code>$ sar -n EDEV --iface<span class="o">=</span>wlp6s0 <span class="m">1</span> <span class="m">3</span>
+Linux <span class="m">5</span>.15.0-56-generic <span class="o">(</span>yonon<span class="o">)</span>     2022年12月23日     _x86_64_    <span class="o">(</span><span class="m">12</span> CPU<span class="o">)</span>
+
+17時34分28秒     IFACE   rxerr/s   txerr/s    coll/s  rxdrop/s  txdrop/s  txcarr/s  rxfram/s  rxfifo/s  txfifo/s
+17時34分29秒    wlp6s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+17時34分29秒     IFACE   rxerr/s   txerr/s    coll/s  rxdrop/s  txdrop/s  txcarr/s  rxfram/s  rxfifo/s  txfifo/s
+17時34分30秒    wlp6s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+17時34分30秒     IFACE   rxerr/s   txerr/s    coll/s  rxdrop/s  txdrop/s  txcarr/s  rxfram/s  rxfifo/s  txfifo/s
+17時34分31秒    wlp6s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+
+平均値:      IFACE   rxerr/s   txerr/s    coll/s  rxdrop/s  txdrop/s  txcarr/s  rxfram/s  rxfifo/s  txfifo/s
+平均値:     wlp6s0      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00      <span class="m">0</span>.00
+</code></pre></div>
+<h3 id="_20">表示結果の内容</h3>
+<table>
+<thead>
+<tr>
+<th>オプション</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IFACE</td>
+<td>統計をレポートするネットワークインタフェースの名前。</td>
+</tr>
+<tr>
+<td>rxerr/s</td>
+<td>1 秒あたりの受信不良パケット数。</td>
+</tr>
+<tr>
+<td>txerr/s</td>
+<td>1 秒あたりの送信エラーが起きたパケット数。</td>
+</tr>
+<tr>
+<td>coll/s</td>
+<td>1 秒あたりの送信衝突 (collision) が起きたパケット数。</td>
+</tr>
+<tr>
+<td>rxdrop/s</td>
+<td>1 秒あたりのドロップされた受信パケット数。Linux のバッファに空きがない場合に起こる。</td>
+</tr>
+<tr>
+<td>txdrop/s</td>
+<td>1 秒あたりのドロップされた送信パケット数。Linux のバッファに空きがない場合に起こる。</td>
+</tr>
+<tr>
+<td>txcarr/s</td>
+<td>1 秒あたりのキャリアエラーが起きた送信パケット数。</td>
+</tr>
+<tr>
+<td>rxfram/s</td>
+<td>1 秒あたりのフレームアライメントエラーが起きた受信パケット数。</td>
+</tr>
+<tr>
+<td>rxfifo/s</td>
+<td>1 秒あたりの FIFO オーバーランエラーが起きた受信パケット数。</td>
+</tr>
+<tr>
+<td>txfifo/s</td>
+<td>1 秒あたりの FIFO オーバーランエラーが起きた送信パケット数。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="iptraf">iptraf</h2>
+<p>IPネットワークモニタリングツールです。TCP/UDPなどのIPパケットのモニター、およびネットワークI/Fの統計情報などを表示します。</p>
+<h2 id="pstree">pstree</h2>
+<p>現在動作しているプロセスをツリー形式で表示する。</p>
+<h2 id="ps">ps</h2>
+<p>現在動作しているプロセス一覧を表示する。</p>
+<h2 id="iotop">iotop</h2>
+<p>I/Oの統計情報を表示する。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: 200 キャパシティプランニング" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              200 キャパシティプランニング
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../200_2/" class="md-footer__link md-footer__link--next" aria-label="Next: 200.2 将来のリソースニーズの予測" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              200.2 将来のリソースニーズの予測
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
